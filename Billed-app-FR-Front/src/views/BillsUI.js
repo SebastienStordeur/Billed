@@ -21,15 +21,17 @@ const row = (bill) => {
 
 const rows = (data) => {
   console.log(data)
-/*   if (data && data.length) {
-    data.sort(function (a, b) {
-      return new Date(b.date) - new Date(a.date);
+  if (data && data.length) {
+    data.sort((a, b) => {
+      if(a.date > b.date) return -1
+      if(a.date < b.date) return 1
+      return 0
     });
     return data.map(bill => row(bill)).join("");
   }
 
-  return ""; */
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
+  return "";
+  //return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
 }
 
 export default ({ data: bills, loading, error }) => {
