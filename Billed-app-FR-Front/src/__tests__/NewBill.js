@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { screen } from "@testing-library/dom";
+import { screen, waitFor } from "@testing-library/dom";
 import NewBillUI from "../views/NewBillUI.js";
 import NewBill from "../containers/NewBill.js";
 import { ROUTES_PATH } from "../constants/routes";
@@ -10,32 +10,36 @@ import { localStorageMock } from "../__mocks__/localStorage";
 import Router from "../app/Router";
 
 describe("Given I am connected as an employee", () => {
-  describe("When I am on NewBill Page", () => {
-    test("Then the envelop icon should be highlighted", () => {
-      const html = NewBillUI();
-      document.body.innerHTML = html;
-      const pathname = ROUTES_PATH["NewBill"];
-      //to-do write assertion
+	describe("When I am on NewBill Page", () => {
+		test("Then the envelop icon should be highlighted", async () => {
+			const html = NewBillUI();
+			document.body.innerHTML = html;
+			const pathname = ROUTES_PATH["NewBill"];
 
-      //Build DOM
-      Object.defineProperty(window, "location", {
-        value: {
-          path: pathname,
-        },
-      });
+			Object.defineProperty(window, "localStorage", {
+				value: localStorageMock,
+			});
+			window.localStorage.setItem(
+				"user",
+				JSON.stringify({
+					type: "Employee",
+				})
+			);
 
-      Router();
+			const root = document.createElement("div");
+			root.setAttribute("id", "root");
+			document.body.append(root);
 
-      expect(
-        screen
-          .getByTestId("icon-mail")
-          .classList.contains("active-icon")
-          .toBeTruthy()
-      );
-    });
+			Router();
+			window.onNavigate(pathname);
+			await waitFor(() => screen.getByTestId("icon-mail"));
+			const mailIcon = screen.getByTestId("icon-mail");
 
-    test("When i change the file, it should display the new name of the file", () => {});
+			expect(mailIcon.classList.contains("active-icon")).toBeTruthy();
+		});
 
-    test("When i submit the form, it should redirect the user to the bill page", () => {});
-  });
+		test("When i change the file, it should display the new name of the file", () => {});
+
+		test("When i submit the form, it should redirect the user to the bill page", () => {});
+	});
 });
