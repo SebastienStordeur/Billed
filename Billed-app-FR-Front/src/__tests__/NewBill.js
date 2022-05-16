@@ -39,7 +39,7 @@ describe("Given I am connected as an employee", () => {
 			expect(mailIcon.classList.contains("active-icon")).toBeTruthy();
 		});
 
-		test("When i change the file, it should display the new name of the file", () => {
+		/* test("When i change the file, it should display the new name of the file", () => {
 			const html = NewBillUI();
 			document.body.innerHTML = html;
 
@@ -48,7 +48,7 @@ describe("Given I am connected as an employee", () => {
 			const mockHandleChangeFile = jest.fn((e) =>
 				newBill.handleChangeFile(e)
 			);
-		});
+		}); */
 
 		//check if image format is ok
 
