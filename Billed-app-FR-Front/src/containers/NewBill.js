@@ -24,14 +24,13 @@ export default class NewBill {
     const fileName = filePath[filePath.length-1]
     const fileExtension = fileName.split(".")[1]
     const acceptedFormats = ["jpg", "png", "jpeg"];
-
-    console.log(fileExtension)
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
+    
     formData.append('file', file)
     formData.append('email', email)
 
-    if(acceptedFormats.includes(fileExtension)) this.handleStore(formData, fileName)
+    if(acceptedFormats.includes(fileExtension)) this.handleStore(formData, fileName) //a revoir envoi directement à la mise a jour du fichier
     else {
       alert('Extension de fichier non supportée.')
       fileInput.value=""
@@ -72,6 +71,7 @@ export default class NewBill {
       fileName: this.fileName,
       status: 'pending'
     }
+    console.log(bill)
     this.updateBill(bill)
     this.onNavigate(ROUTES_PATH['Bills'])
   }
