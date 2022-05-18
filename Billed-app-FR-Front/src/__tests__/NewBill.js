@@ -8,7 +8,6 @@ import NewBill from "../containers/NewBill.js";
 import { ROUTES_PATH } from "../constants/routes";
 import { localStorageMock } from "../__mocks__/localStorage";
 import Router from "../app/Router";
-import mockedBills from "../__mocks__/store";
 import { bills } from "../fixtures/bills";
 
 describe("Given I am connected as an employee", () => {
@@ -40,6 +39,7 @@ describe("Given I am connected as an employee", () => {
 			expect(mailIcon.classList.contains("active-icon")).toBeTruthy();
 		});
 
+		//Change file
 		test("When i change the file, it should display the new name of the file", () => {
 			const html = NewBillUI();
 			document.body.innerHTML = html;
@@ -70,7 +70,38 @@ describe("Given I am connected as an employee", () => {
 			expect(fileInput.files[0].name).toBe("file.jpg");
 		});
 
-		//check if image format is ok
+		//Wrong file format
+		test("The image format is not supported", () => {
+			const html = NewBillUI();
+			document.body.innerHTML = html;
+
+			const store = null;
+			const newBill = new NewBill({
+				document,
+				onNavigate,
+				store,
+				bills,
+				localStorage: localStorageMock
+			});
+
+			const mockHandleChangeFile = jest.fn(newBill.handleChangeFile);
+			const fileInput = screen.getByTestId("file");
+			expect(fileInput).toBeTruthy();
+
+			//Wrong file format
+			fileInput.addEventListener("change", mockHandleChangeFile);
+			fireEvent.change(fileInput, {
+				target: { 
+					files: [new File(["file.gif"], "file.gif", { type: "file/gif" })],
+				},
+			});
+			expect(mockHandleChangeFile).toHaveBeenCalled();
+ 			expect(fileInput.files[0].name).not.toBe("file.jpg");
+
+			//test alert
+			jest.spyOn(window, 'alert').mockImplementation(() => {});
+			expect(window.alert).toBeTruthy();
+		}) 
 
 		//on submit, check if the bill is created
 
