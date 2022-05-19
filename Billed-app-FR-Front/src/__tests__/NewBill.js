@@ -108,3 +108,29 @@ describe("Given I am connected as an employee", () => {
 		test("When i submit the form, it should redirect the user to the bill page", () => {});
 	});
 });
+
+//test d'intégration POST
+/* describe("Given i am a user conencted as Employee", () => {
+	describe("When i submit a new bill", () => {
+		test("fetches POST", () => {
+			const html = NewBillUI();
+			document.body.innerHTML = html;
+			const pathname = ROUTES_PATH["NewBill"];
+
+			window.localStorage.setItem(
+				"user",
+				JSON.stringify({
+					type: "Employee",
+				})
+			);
+
+			const root = document.createElement("div");
+			root.setAttribute("id", "root");
+			document.body.append(root);
+
+			Router();
+			window.onNavigate(pathname);
+			await waitFor(() => screen. )
+		})
+	})
+}) */
