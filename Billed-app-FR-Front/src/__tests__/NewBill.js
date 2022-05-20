@@ -110,9 +110,9 @@ describe("Given I am connected as an employee", () => {
 });
 
 //test d'intégration POST
-/* describe("Given i am a user conencted as Employee", () => {
+describe("Given i am a user conencted as Employee", () => {
 	describe("When i submit a new bill", () => {
-		test("fetches POST", () => {
+		test("Then, the bill is created", () => {
 			const html = NewBillUI();
 			document.body.innerHTML = html;
 			const pathname = ROUTES_PATH["NewBill"];
@@ -124,13 +124,46 @@ describe("Given I am connected as an employee", () => {
 				})
 			);
 
-			const root = document.createElement("div");
-			root.setAttribute("id", "root");
-			document.body.append(root);
+			const newBill = new NewBill({
+				document,
+				onNavigate,
+				store: null,
+				localStorage: localStorageMock,
+		  })
+		  	const validBill = {
+				type: "Restaurants et bars",
+				name: "Vol Paris Londres",
+				date: "2022-02-15",
+				amount: 200,
+				vat: 70,
+				pct: 30,
+				commentary: "Commentary",
+				fileUrl: "../img/0.jpg",
+				fileName: "test.jpg",
+				status: "pending"
+	  		};
 
-			Router();
-			window.onNavigate(pathname);
-			await waitFor(() => screen. )
+			//Load field values
+			screen.getByTestId("expense-type").value = validBill.type;
+			screen.getByTestId("expense-name").value = validBill.name;
+			screen.getByTestId("datepicker").value = validBill.date;
+			screen.getByTestId("amount").value = validBill.amount;
+			screen.getByTestId("vat").value = validBill.vat;
+			screen.getByTestId("pct").value = validBill.pct;
+			screen.getByTestId("commentary").value = validBill.commentary;
+
+			newBill.fileName = validBill.fileName;
+			newBill.fileUrl = validBill.fileUrl;
+
+			newBill.updateBill = jest.fn();
+			const handleSubmit = jest.fn(e => newBill.handleSubmit(e));
+
+			const form = screen.getByTestId("form-new-bill");
+			form.addEventListener("submit", handleSubmit);
+			fireEvent.submit(form);
+
+			expect(handleSubmit).toHaveBeenCalled();
+			expect(newBill.updateBill).toHaveBeenCalled();
 		})
 	})
-}) */
+})
