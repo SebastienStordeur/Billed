@@ -282,7 +282,8 @@ describe("Given I am a user connected as Admin", () => {
           list : () =>  {
             return Promise.reject(new Error("Erreur 404"))
           }
-        }})
+        }
+      })
       window.onNavigate(ROUTES_PATH.Dashboard)
       await new Promise(process.nextTick);
       const message = await screen.getByText(/Erreur 404/)
