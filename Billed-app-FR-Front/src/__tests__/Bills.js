@@ -2,13 +2,14 @@
  * @jest-environment jsdom
  */
 
-import { screen, waitFor } from "@testing-library/dom";
+import { fireEvent, screen, waitFor } from "@testing-library/dom";
 import BillsUI from "../views/BillsUI.js";
 import { bills } from "../fixtures/bills.js";
 import { ROUTES_PATH } from "../constants/routes.js";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import mockStore from "../__mocks__/store";
 import router from "../app/Router.js";
+import Bills from "../containers/Bills";
 
 jest.mock("../app/store", () => mockStore)
 
@@ -44,7 +45,33 @@ describe("Given I am connected as an employee", () => {
 		});
 	});
 
-	//describe("");
+	describe("When i click on the eye icon", () => {
+		test("Then, a modal should open", () => {
+			$.fn.modal = jest.fn()// Prevent jQuery error
+			const onNavigate = (pathname) => {
+				document.body.innerHTML({ pathname })
+			};
+
+			Object.defineProperty(window, "localStorage", { value: localStorageMock });
+			window.localStorage.setItem("user", JSON.stringify({ type: "Employee" }));
+
+			const html = BillsUI({ data: bills});
+			document.body.innerHTML = html;
+
+			const billsContainer = new Bills({
+				document, onNavigate, store: mockStore, localStorage: window.localStorage
+			})
+
+			const iconEye = screen.getAllByTestId('icon-eye')[0]
+			const handleShowModalFile = jest.fn((e) => { billsContainer.handleClickIconEye(e.target) })
+		
+			iconEye.addEventListener('click', handleShowModalFile)
+			fireEvent.click(iconEye)
+		
+			expect(handleShowModalFile).toHaveBeenCalled()
+			expect(screen.getAllByText('Justificatif')).toBeTruthy()
+		})
+	});
 });
 
 //test d'integration GET
