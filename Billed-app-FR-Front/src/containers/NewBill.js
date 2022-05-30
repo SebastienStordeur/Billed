@@ -30,7 +30,9 @@ export default class NewBill {
     formData.append('file', file)
     formData.append('email', email)
 
-    if(acceptedFormats.includes(fileExtension)) this.handleStore(formData, fileName) //a revoir envoi directement à la mise a jour du fichier
+    if(acceptedFormats.includes(fileExtension)) {
+      this.handleStore(formData, fileName) //a revoir envoi directement à la mise a jour du fichier
+    }
     else {
       alert('Extension de fichier non supportée.')
       fileInput.value=""
@@ -39,19 +41,19 @@ export default class NewBill {
 
     handleStore(formData, fileName) {
       this.store
-      .bills()
-      .create({
-        data: formData,
-        headers: {
-          noContentType: true
-        }
-      })
-      .then(({fileUrl, key}) => {
-        console.log(fileUrl)
-        this.billId = key
-        this.fileUrl = fileUrl
-        this.fileName = fileName
-      }).catch(error => console.error(error))
+        .bills()
+        .create({
+          data: formData,
+          headers: {
+            noContentType: true
+          }
+        })
+        .then(({fileUrl, key}) => {
+          this.billId = key
+          this.fileUrl = fileUrl
+          this.fileName = fileName
+        })
+        .catch(error => console.error(error))
     }
 
   handleSubmit = e => {
