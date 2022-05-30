@@ -38,7 +38,7 @@ export default class {
             try {
               return {
                 ...doc,
-                date: formatDate(doc.date),
+                //date: formatDate(doc.date), //si non commenté, l'affichage n'est pas correctement géré par date
                 status: formatStatus(doc.status)
               }
             } catch(e) {

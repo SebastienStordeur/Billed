@@ -104,10 +104,6 @@ describe("Given I am connected as an employee", () => {
 			jest.spyOn(window, 'alert').mockImplementation(() => {});
 			expect(window.alert).toBeTruthy();
 		}) 
-
-		//on submit, check if the bill is created
-
-		test("When i submit the form, it should redirect the user to the bill page", () => {});
 	});
 });
 
@@ -117,7 +113,6 @@ describe("Given i am a user conencted as Employee", () => {
 		test("Then, the bill should be created", () => {
 			const html = NewBillUI();
 			document.body.innerHTML = html;
-			const pathname = ROUTES_PATH["NewBill"];
 
 			window.localStorage.setItem(
 				"user",
@@ -136,12 +131,12 @@ describe("Given i am a user conencted as Employee", () => {
 		  	const validBill = {
 				type: "Restaurants et bars",
 				name: "Vol Paris Londres",
-				date: "2022-02-15",
-				amount: 200,
+				date: "2022-05-22",
+				amount: 100,
 				vat: 70,
 				pct: 30,
-				commentary: "Commentary",
-				fileUrl: "../img/0.jpg",
+				commentary: "Un commentaire aléatoire",
+				fileUrl: "../img/test.jpg",
 				fileName: "test.jpg",
 				status: "pending"
 	  		};
